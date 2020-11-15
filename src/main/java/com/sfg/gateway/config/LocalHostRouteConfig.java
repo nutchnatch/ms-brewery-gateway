@@ -6,25 +6,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+/**
+ * Created by jt on 3/7/20.
+ */
 @Profile("!local-discovery")
 @Configuration
-public class LocalHostRouteConfiguration {
+public class LocalHostRouteConfig {
 
     @Bean
-    public RouteLocator localHostRoutes(RouteLocatorBuilder builder) {
+    public RouteLocator localHostRoutes(RouteLocatorBuilder builder){
         return builder.routes()
-                .route(r -> r
-                        .path("/api/v1/beer*", "/api/v1/beer/*", "/api/v1/beerUpc/*")
+                .route(r -> r.path("/api/v1/beer*", "/api/v1/beer/*", "/api/v1/beerUpc/*")
                         .uri("http://localhost:8080")
                         .id("beer-service"))
-                .route(r -> r
-                        .path("/api/v1/customers/**")
+                .route(r -> r.path("/api/v1/customers/**")
                         .uri("http://localhost:8081")
                         .id("order-service"))
-                .route(r -> r
-                    .path("/api/v1/beer/*/inventory")
-                    .uri("http://localhost:8082")
-                    .id("inventory-service"))
+                .route(r -> r.path("/api/v1/beer/*/inventory")
+                        .uri("http://localhost:8082")
+                        .id("inventory-service"))
                 .build();
     }
 }
